@@ -14,4 +14,9 @@ export class PumpsDAO {
     delete() {
         return Pumps.delete({ id: this.id })
     }
+
+    // for the test proportions only
+    static async getAllPumps(): Promise<Pumps[]> {
+        return Pumps.find();
+    }
 }
