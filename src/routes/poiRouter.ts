@@ -2,6 +2,7 @@ import * as express from 'express';
 import debug from "debug";
 import { POIDAO } from '../models/poi';
 import { POI } from "../database/entity/poi";
+import pagination from '../helper/pagination';
 const debugServer = debug('ryd-task:server');
 const router = express.Router();
 
@@ -72,38 +73,16 @@ router.get("/paginated", async (req, res) => {
         //const POIS = await POIDAO.getAllPOi();
         const POIS = await POI.createQueryBuilder("poi")
             .leftJoinAndSelect("poi.pumps", "pumps")
-            .where("poi.id=pumps.poiId")
             .leftJoinAndSelect("poi.openingHours", "openingHours")
-            .where("poi.id=openingHours.poiId")
             .leftJoinAndSelect("pumps.fuelProducts", "fuelProducts")
-            .where("pumps.id=fuelProducts.pumpId")
+            .where("poi.id = pumps.poiId")
+            .andWhere("poi.id = openingHours.poiId")
+            .andWhere("pumps.id = fuelProducts.pumpId")
             .getMany();
-        const page = +req.query.page;
-        const limit = +req.query.limit;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        const paginatedResult = POIS.slice(startIndex, endIndex);
-        const result = {
-            resultPOIs: [],
-            previousPage: {},
-            nextPage: {},
-        };
-        result.resultPOIs = paginatedResult;
-        if (startIndex > 0) {
-            result.previousPage = {
-                page: +page - 1,
-                limit: limit,
-            }
-        };
-        if (endIndex < POIS.length) {
-            result.nextPage = {
-                page: +page + 1,
-                limit: limit,
-            }
-        };
+        const paginatedResult = pagination(POIS, req);
 
         debugServer("all the POIs are retrieved")
-        res.status(200).send(result);
+        res.status(200).send(paginatedResult);
     } catch (error) {
         debugServer("failed to fetch all POIs %o", error)
         res.status(500).send({ message: "fail to fetch all POIs" });
