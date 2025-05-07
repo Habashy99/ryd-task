@@ -19,4 +19,10 @@ export class PumpsDAO {
     static async getAllPumps(): Promise<Pumps[]> {
         return Pumps.find();
     }
+
+    static async getPumpById(id: string): Promise<Pumps> {
+        const pump = await Pumps.findOneBy({ id })
+        return Object.assign(new PumpsDAO(), pump)
+
+    }
 }
