@@ -22,4 +22,12 @@ describe("test PoisDAO", () => {
         expect(Array.isArray(pois)).toBeTruthy();
     })
 
+    test("get Pois by id", async () => {
+        const pois = await POIDAO.getPOiById(1)
+        expect(pois.id).toBe(1);
+        expect(pois.status).toBe("ONLINE");
+        expect(pois.country).toBe("Germany");
+        expect(pois.zipCode).toBe("80939");
+    })
+
 })
