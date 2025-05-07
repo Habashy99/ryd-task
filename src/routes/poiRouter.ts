@@ -2,7 +2,7 @@ import * as express from 'express';
 import debug from "debug";
 import { POIDAO } from '../models/poi';
 import { POI } from "../database/entity/poi";
-const debugServer = debug('task:server');
+const debugServer = debug('ryd-task:server');
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
