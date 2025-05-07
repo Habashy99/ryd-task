@@ -13,4 +13,9 @@ export class FuelProductsDAO {
     delete() {
         return FuelProducts.delete({ id: this.id })
     }
+
+    // for the test proportions only
+    static async getAllFuelProduct(): Promise<FuelProducts[]> {
+        return FuelProducts.find();
+    }
 }
