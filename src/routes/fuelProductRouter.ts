@@ -1,7 +1,7 @@
 import * as express from 'express';
 import debug from "debug";
 import { FuelProductsDAO } from '../models/fuelProduct';
-const debugServer = debug('task:server');
+const debugServer = debug('ryd-task:server');
 const router = express.Router();
 
 router.post("/add", async (req, res) => {

@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 const express = require("express");
 import debug from "debug";
-const debugServer = debug('task:server');
+const debugServer = debug('ryd-task:server');
 import poiRoutes from "./routes/poiRouter";
 import pumpRouter from "./routes/pumpRouter";
 import openingHoursRouter from "./routes/openingHoursRouter";
